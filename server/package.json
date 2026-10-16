@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "vitest run",
-    "seed": "tsx src/scripts/seed.ts"
+    "db:migrate": "tsx src/scripts/migrate.ts"
   },
   "keywords": [],
   "author": "",
