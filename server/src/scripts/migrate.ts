@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { pool } from "../db/pool";
+import { pool } from "../db/pool.js";
 
 async function main() {
     const sql = readFileSync(join(import.meta.dirname, "../db/schema.sql"), "utf8");
