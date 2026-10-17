@@ -5,6 +5,7 @@ import { config } from "./config/index.js";
 import { pool } from "./db/pool.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { authRouter } from "./routes/auth.js";
+import { eventsRouter } from "./routes/events.js";
 
 export const app = express();
 
@@ -18,6 +19,7 @@ app.get("/health", async (_req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/events", eventsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
