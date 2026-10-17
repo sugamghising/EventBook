@@ -1,14 +1,20 @@
 import { RequestHandler } from "express";
-import { ZodType } from "zod";
+import { z, ZodType } from "zod";
 import { AppError } from "../errors.js";
+
+export const idSchema = z.string().uuid();
+
+export function parse<T extends ZodType>(schema: T, data: unknown): z.output<T> {
+  const result = schema.safeParse(data);
+  if (!result.success) {
+    throw new AppError(400, "VALIDATION_ERROR", "Invalid input", result.error.flatten().fieldErrors);
+  }
+  return result.data;
+}
 
 export const validateBody =
   (schema: ZodType): RequestHandler =>
   (req, _res, next) => {
-    const result = schema.safeParse(req.body);
-    if (!result.success) {
-      throw new AppError(400, "VALIDATION_ERROR", "Invalid input", result.error.flatten().fieldErrors);
-    }
-    req.body = result.data; // parsed and trimmed, with unknown keys stripped
+    req.body = parse(schema, req.body);
     next();
   };
