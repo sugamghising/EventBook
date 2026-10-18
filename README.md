@@ -114,3 +114,15 @@ silently erasing attendees' bookings (with no email to notify them) would be wor
 Trade-off: an event with attendees can't be removed at all. Next step, if needed:
 a soft-cancel (`events.cancelled_at`) that hides the event and cancels its bookings.
 Only cancelled-booking history (if any) is removed on delete, via the cascade from the schema.
+
+## Future enhancements
+
+- **Layered architecture** — split the routers into `controllers/` (HTTP concerns: request parsing, status codes, response shapes) and `services/` (domain rules and SQL). Routes shrink to wiring: middleware → controller → service.
+- **DTO isolation** — services return typed DTOs instead of raw query rows, so the HTTP layer never breaks when a table's shape evolves.
+- **Token storage hardening** — replace the localStorage JWT (see Auth trade-off above) with httpOnly cookies plus CSRF protection, or keep localStorage but pair access tokens with short-lived refresh tokens.
+- **Soft-cancel flow** — the `events.cancelled_at` path sketched in the deletion section: hide the event and automatically cancel affected bookings.
+- **Email notifications** — attendees currently learn about cancellations and event changes only by visiting the app; a notification email service would close that gap.
+- **Rate limiting on auth** — per-IP and per-account limits on `/api/auth/register` and `/api/auth/login` (the dummy-hash timing shield helps, but it isn't a rate limit).
+- **Versioned migrations** — replace the hand-rolled `db:migrate` script with a tool like node-pg-migrate so schema changes become reversible, ordered files.
+- **CI pipeline** — a GitHub Actions workflow running lint, `tsc`, Vitest, and a Playwright smoke pass on every PR.
+- **Structured logging** — pino-style JSON logs with request IDs instead of the current `console.log` in `server.ts`, so error paths are traceable in hosted environments.
