@@ -1,4 +1,3 @@
-import { RequestHandler } from "express";
 import { z, ZodType } from "zod";
 import { AppError } from "../errors.js";
 
@@ -11,10 +10,3 @@ export function parse<T extends ZodType>(schema: T, data: unknown): z.output<T> 
   }
   return result.data;
 }
-
-export const validateBody =
-  (schema: ZodType): RequestHandler =>
-  (req, _res, next) => {
-    req.body = parse(schema, req.body);
-    next();
-  };

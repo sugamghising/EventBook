@@ -34,7 +34,9 @@ EventBook is a full-stack event booking platform: visitors browse and search eve
 ```
 ├── server/     Express API (Express 5 + TypeScript + Postgres)
 │   └── src/
-│       ├── routes/        auth, events, bookings
+│       ├── routes/        thin wiring: middleware chain → controller
+│       ├── controllers/   HTTP concerns: request parsing, status codes, response shapes
+│       ├── services/      domain rules + SQL, returning typed DTOs
 │       ├── middleware/    authenticate, validate, errorHandler
 │       ├── lib/           seats & transaction helpers
 │       └── scripts/       migrate.ts, seed.ts
@@ -117,8 +119,6 @@ Only cancelled-booking history (if any) is removed on delete, via the cascade fr
 
 ## Future enhancements
 
-- **Layered architecture** — split the routers into `controllers/` (HTTP concerns: request parsing, status codes, response shapes) and `services/` (domain rules and SQL). Routes shrink to wiring: middleware → controller → service.
-- **DTO isolation** — services return typed DTOs instead of raw query rows, so the HTTP layer never breaks when a table's shape evolves.
 - **Token storage hardening** — replace the localStorage JWT (see Auth trade-off above) with httpOnly cookies plus CSRF protection, or keep localStorage but pair access tokens with short-lived refresh tokens.
 - **Soft-cancel flow** — the `events.cancelled_at` path sketched in the deletion section: hide the event and automatically cancel affected bookings.
 - **Email notifications** — attendees currently learn about cancellations and event changes only by visiting the app; a notification email service would close that gap.
