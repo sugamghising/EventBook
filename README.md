@@ -24,7 +24,7 @@ EventBook is a full-stack event booking platform: visitors browse and search eve
 
 | Layer | Tools |
 |---|---|
-| API | Express 5, TypeScript, Zod validation, JWT (stateless), argon2, helmet, cors |
+| API | Express 5, TypeScript, Zod validation, JWT (stateless), bcrypt, helmet, cors |
 | Database | PostgreSQL with raw SQL migrations and a seed script |
 | Frontend | Next.js 16 (App Router), TypeScript, Tailwind CSS 4, no UI library, no external data source |
 | Testing | Vitest (server), Playwright (frontend E2E) |

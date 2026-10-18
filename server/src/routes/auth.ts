@@ -24,7 +24,7 @@ authRouter.post("/register", validateBody(registerSchema), async (req, res) => {
   const passwordHash = await hashPassword(password);
 
   try {
-    // role is never taken from the request; the column default ('user') applies
+
     const { rows } = await pool.query(
       `insert into users (name, email, password_hash)
        values ($1, $2, $3)
