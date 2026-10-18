@@ -11,6 +11,10 @@ import { bookingsRouter } from "./routes/bookings.js";
 
 export const app = express();
 
+// Vercel's runtime entrypoint (src/app.js) bridges a default export;
+// the named `app` export stays for self-hosted server.js.
+export default app;
+
 app.use(helmet());
 app.use(cors({ origin: config.FRONTEND_URL }));
 app.use(express.json());
