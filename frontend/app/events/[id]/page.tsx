@@ -143,6 +143,9 @@ function EventDetail({ id }: { id: string }) {
             </div>
           ) : past ? (
             <p className="text-muted">This event has ended</p>
+          ) : mine.loading ? (
+            // While the booking check is in flight the panel can't decide safely yet.
+            <Skeleton className="h-11 w-44" />
           ) : myBooking ? (
             <div className="flex flex-wrap items-center gap-3">
               <p role="status" className="font-medium text-open">

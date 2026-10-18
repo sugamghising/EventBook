@@ -77,7 +77,9 @@ function Bookings() {
   const { status } = useAuth();
   const { data, error, loading, reload } = useFetch<{ data: MyBooking[] }>(
     `bookings:${status}`,
-    (signal) => request("/bookings/me", { auth: true, signal }),
+    (signal) =>
+      // Anonymous sessions fetch nothing; the empty state renders instead.
+      status === "authenticated" ? request("/bookings/me", { auth: true, signal }) : Promise.resolve({ data: [] }),
   );
 
   const [cancelId, setCancelId] = useState<string | null>(null);
