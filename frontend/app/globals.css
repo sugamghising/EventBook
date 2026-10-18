@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* Design tokens. Every color and font in the app comes from this list. */
+@theme inline {
+  --color-ink: #1b2340; /* primary text, dark surfaces */
+  --color-paper: #f3f5f9; /* page background */
+  --color-surface: #ffffff; /* cards, inputs, dialogs */
+  --color-line: #d5dae6; /* 1px borders and dividers */
+  --color-muted: #566078; /* secondary text */
+  --color-signal: #2b50e6; /* primary actions, links, focus ring */
+  --color-open: #17795e; /* seats: open */
+  --color-low: #b45309; /* seats: low */
+  --color-full: #b42318; /* seats: full, also danger actions */
+
+  --font-sans: var(--font-public-sans);
+  --font-heading: var(--font-bricolage);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-public-sans), system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-bricolage), var(--font-public-sans), sans-serif;
+  }
+
+  /* Visible focus on everything interactive. */
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+  }
+
+  dialog::backdrop {
+    background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
